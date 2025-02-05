@@ -19,16 +19,24 @@
 Data destination, eta, currentDirection, currentDirectionDistance, 
 etaMinutes, totalRemainingDistance, preciseDirection;
 
-std::unordered_map<std::string, Data*> uuidMapping = {
-  {DESTINATION_UUID, &destination},
-  {ETA_UUID, &eta},
-  {DIRECTION_UUID, &currentDirection},
-  {DIRECTION_DISTANCE_UUID, &currentDirectionDistance},
-  {ETA_MINUTES_UUID, &etaMinutes},
-  {TOTAL_DISTANCE_UUID, &totalRemainingDistance},
-  {PRECISE_DIRECTION_UUID, &preciseDirection}
+BLECharacteristic destinationCharacteristic, etaCharacteristic, currentDirectionCharacteristic,
+currentDirectionDistanceCharacteristic, etaMinutesCharacteristic, 
+totalRemainingDistanceCharacteristic, preciseDirectionCharacteristic;
+
+BLEServer *pServer;
+BLEService *pService;
+
+std::unordered_map<std::string, std::pair<Data*, BLECharacteristic*>> uuidMapping = {
+  {DESTINATION_UUID, {&destination, &destinationCharacteristic}},
+  {ETA_UUID, {&eta, &etaCharacteristic}},
+  {DIRECTION_UUID, {&currentDirection, &currentDirectionCharacteristic}},
+  {DIRECTION_DISTANCE_UUID, {&currentDirectionDistance, &currentDirectionDistanceCharacteristic}},
+  {ETA_MINUTES_UUID, {&etaMinutes, &etaMinutesCharacteristic}},
+  {TOTAL_DISTANCE_UUID, {&totalRemainingDistance, &totalRemainingDistanceCharacteristic}},
+  {PRECISE_DIRECTION_UUID, {&preciseDirection, &preciseDirectionCharacteristic}}
 };
 
+//Callback class passes information over BLE
 class MyCallback : public BLECharacteristicCallbacks {
   //When app writes to ESP
   void onWrite(BLECharacteristic *pCharacteristic) override {
@@ -38,10 +46,10 @@ class MyCallback : public BLECharacteristicCallbacks {
     //Find the associated object given the UUID
     Data *data = &destination;
     if (uuidMapping.find(uuid) != uuidMapping.end()) {
-      data = uuidMapping[uuid];
+      data = uuidMapping[uuid].first;
     }
 
-    data->setPayload(pCharacteristic->getValue().c_str());
+    data->setPayload(payload);
   }
 
   //Maximum Transmission Unit
@@ -50,19 +58,28 @@ class MyCallback : public BLECharacteristicCallbacks {
   }
 };
 
-// put function declarations here:
-int myFunction(int, int);
+void initializeBLECharacteristic();
 
 void setup() {
   // put your setup code here, to run once:
-  int result = myFunction(2, 3);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void initializeBLECharacteristic() {
+  MyCallback *myCallback = new MyCallback();
+
+  //Iterate through uuid mappings, create new characteristic, link to callback
+  for (auto it = uuidMapping.begin(); it != uuidMapping.end(); ++it) {
+    std::string uuid = it->first;
+    BLECharacteristic *pCharacteristic = it->second.second;
+
+    pCharacteristic = pService->createCharacteristic(
+      uuid, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE
+    );
+
+    pCharacteristic->setCallbacks(myCallback);
+  }
 }
