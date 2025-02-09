@@ -131,8 +131,8 @@ fun RPDevicesPreview() {
             "Smart Fridge"
         ),
         amount = 5,
-        modifier = Modifier.padding(16.dp),
-        navController = rememberNavController()
+        modifier = Modifier.padding(16.dp), // mocks innerPadding from Scaffold
+        navController = rememberNavController() // mock navController for Previews
     )
 }
 

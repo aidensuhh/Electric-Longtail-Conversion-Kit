@@ -19,9 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun AllRPDevicesScreen(devicesList: List<String>,
@@ -73,32 +75,32 @@ private fun Header(navController: NavController) {
     }
 }
 
-//@Preview
-//@Composable
-//fun AllRPDevicesScreenPreview() {
-//    AllRPDevicesScreen(
-//        devicesList = listOf(
-//            "JBL Speaker",
-//            "iPhone 3",
-//            "Someone's Laptop",
-//            "AirPods",
-//            "iPhone 4",
-//            "iPhone 5",
-//            "Someone's Bose Headphones",
-//            "Computer",
-//            "Smart Fridge",
-//            "JBL Speaker",
-//            "iPhone 3",
-//            "Someone's Laptop",
-//            "AirPods",
-//            "iPhone 4",
-//            "iPhone 5",
-//            "Someone's Bose Headphones",
-//            "Computer",
-//            "Smart Fridge"
-//        ),
-//        modifier = Modifier.padding(16.dp),
-//        navController = NavController(context = null)
-//    )
-//}
+@Preview (showBackground = true)
+@Composable
+fun AllRPDevicesScreenPreview() {
+    AllRPDevicesScreen(
+        devicesList = listOf(
+            "JBL Speaker",
+            "iPhone 3",
+            "Someone's Laptop",
+            "AirPods",
+            "iPhone 4",
+            "iPhone 5",
+            "Someone's Bose Headphones",
+            "Computer",
+            "Smart Fridge",
+            "JBL Speaker",
+            "iPhone 3",
+            "Someone's Laptop",
+            "AirPods",
+            "iPhone 4",
+            "iPhone 5",
+            "Someone's Bose Headphones",
+            "Computer",
+            "Smart Fridge"
+        ),
+        modifier = Modifier.padding(16.dp), // mocks innerPadding from Scaffold
+        navController = rememberNavController() // mock navController for Previews
+    )
+}
 
