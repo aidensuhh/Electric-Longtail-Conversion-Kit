@@ -48,7 +48,7 @@ private fun Title() {
 @Composable
 fun DisplayDevices(devicesList: List<String>, modifier: Modifier = Modifier, amount: Int = devicesList.size) {
     Column(verticalArrangement = Arrangement.spacedBy(3.dp), modifier = modifier) {
-        for (i in 0..< amount) {
+        for (i in 0..< minOf(amount, devicesList.size)) {
             Button(
                 onClick = {  }, // configure when BLE is set up
                 elevation = ButtonDefaults.buttonElevation(pressedElevation = 3.dp),
