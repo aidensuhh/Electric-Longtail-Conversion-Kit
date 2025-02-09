@@ -26,16 +26,15 @@ import androidx.compose.ui.unit.sp
 @Composable
 private fun Title() {
     Text(
-        text = "Recently Paired Devices:",
-        fontSize = 24.sp,
-        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-        modifier = Modifier.padding( start = 8.dp, bottom = 8.dp)
+        text = "Recently Paired Devices",
+        fontSize = 28.sp,
+        modifier = Modifier.padding( start = 30.dp, bottom = 15.dp)
     )
 }
 
 @Composable
-private fun DisplayDevices(devicesList: List<String>, amount: Int = devicesList.size) {
-    Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+fun DisplayDevices(devicesList: List<String>, modifier: Modifier = Modifier, amount: Int = devicesList.size) {
+    Column(verticalArrangement = Arrangement.spacedBy(3.dp), modifier = modifier) {
         for (i in 0..< amount) {
             Button(
                 onClick = { /*TODO*/ },
@@ -96,7 +95,7 @@ private fun ViewAllButton() {
 fun RPDevices(devicesList: List<String>, modifier: Modifier = Modifier, amount: Int = devicesList.size) {
     Column(modifier = modifier) {
         Title()
-        DisplayDevices(devicesList, amount)
+        DisplayDevices(devicesList, amount = amount)
         ViewAllButton()
     }
 }
@@ -106,6 +105,15 @@ fun RPDevices(devicesList: List<String>, modifier: Modifier = Modifier, amount: 
 fun RPDevicesPreview() {
     RPDevices(
         devicesList = listOf(
+            "JBL Speaker",
+            "iPhone 3",
+            "Someone's Laptop",
+            "AirPods",
+            "iPhone 4",
+            "iPhone 5",
+            "Someone's Bose Headphones",
+            "Computer",
+            "Smart Fridge",
             "JBL Speaker",
             "iPhone 3",
             "Someone's Laptop",
