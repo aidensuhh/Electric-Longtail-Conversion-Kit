@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun RPDevices(devicesList: List<String>, modifier: Modifier = Modifier, amount: Int = devicesList.size, navController: NavController) {
@@ -35,11 +36,13 @@ fun RPDevices(devicesList: List<String>, modifier: Modifier = Modifier, amount: 
 
 @Composable
 private fun Title() {
-    Text(
-        text = "Recently Paired Devices",
-        fontSize = 28.sp,
-        modifier = Modifier.padding( start = 30.dp, bottom = 15.dp)
-    )
+    Box(Modifier.fillMaxWidth()) {
+        Text(
+            text = "Recently Paired Devices",
+            fontSize = 28.sp,
+            modifier = Modifier.padding(bottom = 15.dp).align(Alignment.Center)
+        )
+    }
 }
 
 @Composable
@@ -103,33 +106,33 @@ private fun ViewAllButton(navController: NavController) {
 
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun RPDevicesPreview() {
-//    RPDevices(
-//        devicesList = listOf(
-//            "JBL Speaker",
-//            "iPhone 3",
-//            "Someone's Laptop",
-//            "AirPods",
-//            "iPhone 4",
-//            "iPhone 5",
-//            "Someone's Bose Headphones",
-//            "Computer",
-//            "Smart Fridge",
-//            "JBL Speaker",
-//            "iPhone 3",
-//            "Someone's Laptop",
-//            "AirPods",
-//            "iPhone 4",
-//            "iPhone 5",
-//            "Someone's Bose Headphones",
-//            "Computer",
-//            "Smart Fridge"
-//        ),
-//        amount = 5,
-//        modifier = Modifier.padding(16.dp),
-//        navController = NavController(context = null)
-//    )
-//}
+@Preview(showBackground = true)
+@Composable
+fun RPDevicesPreview() {
+    RPDevices(
+        devicesList = listOf(
+            "JBL Speaker",
+            "iPhone 3",
+            "Someone's Laptop",
+            "AirPods",
+            "iPhone 4",
+            "iPhone 5",
+            "Someone's Bose Headphones",
+            "Computer",
+            "Smart Fridge",
+            "JBL Speaker",
+            "iPhone 3",
+            "Someone's Laptop",
+            "AirPods",
+            "iPhone 4",
+            "iPhone 5",
+            "Someone's Bose Headphones",
+            "Computer",
+            "Smart Fridge"
+        ),
+        amount = 5,
+        modifier = Modifier.padding(16.dp),
+        navController = rememberNavController()
+    )
+}
 
