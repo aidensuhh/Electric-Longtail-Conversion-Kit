@@ -22,6 +22,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+
+@Composable
+fun RPDevices(devicesList: List<String>, modifier: Modifier = Modifier, amount: Int = devicesList.size, navController: NavController) {
+    Column(modifier = modifier) {
+        Title()
+        DisplayDevices(devicesList, amount = amount)
+        ViewAllButton(navController)
+    }
+}
 
 @Composable
 private fun Title() {
@@ -37,7 +47,7 @@ fun DisplayDevices(devicesList: List<String>, modifier: Modifier = Modifier, amo
     Column(verticalArrangement = Arrangement.spacedBy(3.dp), modifier = modifier) {
         for (i in 0..< amount) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {  }, // configure when BLE is set up
                 elevation = ButtonDefaults.buttonElevation(pressedElevation = 3.dp),
                 shape = RectangleShape,
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White),
@@ -64,7 +74,7 @@ fun DisplayDevices(devicesList: List<String>, modifier: Modifier = Modifier, amo
 }
 
 @Composable
-private fun ViewAllButton() {
+private fun ViewAllButton(navController: NavController) {
     Box(Modifier.fillMaxWidth()) {
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = Color(red = 50, green = 200, blue = 50)),
@@ -74,7 +84,9 @@ private fun ViewAllButton() {
                 .width(180.dp)
                 .align(Alignment.Center)
                 .wrapContentHeight(Alignment.CenterVertically),
-            onClick = { /*TODO*/ },
+            onClick = {
+                navController.navigate("AllRPDevicesScreen") // navigate to screen that displays all RP devices
+            },
         ) {
             Text(
                 text = "View All",
@@ -91,41 +103,33 @@ private fun ViewAllButton() {
 
 }
 
-@Composable
-fun RPDevices(devicesList: List<String>, modifier: Modifier = Modifier, amount: Int = devicesList.size) {
-    Column(modifier = modifier) {
-        Title()
-        DisplayDevices(devicesList, amount = amount)
-        ViewAllButton()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun RPDevicesPreview() {
-    RPDevices(
-        devicesList = listOf(
-            "JBL Speaker",
-            "iPhone 3",
-            "Someone's Laptop",
-            "AirPods",
-            "iPhone 4",
-            "iPhone 5",
-            "Someone's Bose Headphones",
-            "Computer",
-            "Smart Fridge",
-            "JBL Speaker",
-            "iPhone 3",
-            "Someone's Laptop",
-            "AirPods",
-            "iPhone 4",
-            "iPhone 5",
-            "Someone's Bose Headphones",
-            "Computer",
-            "Smart Fridge"
-        ),
-        amount = 5,
-        modifier = Modifier.padding(16.dp)
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun RPDevicesPreview() {
+//    RPDevices(
+//        devicesList = listOf(
+//            "JBL Speaker",
+//            "iPhone 3",
+//            "Someone's Laptop",
+//            "AirPods",
+//            "iPhone 4",
+//            "iPhone 5",
+//            "Someone's Bose Headphones",
+//            "Computer",
+//            "Smart Fridge",
+//            "JBL Speaker",
+//            "iPhone 3",
+//            "Someone's Laptop",
+//            "AirPods",
+//            "iPhone 4",
+//            "iPhone 5",
+//            "Someone's Bose Headphones",
+//            "Computer",
+//            "Smart Fridge"
+//        ),
+//        amount = 5,
+//        modifier = Modifier.padding(16.dp),
+//        navController = NavController(context = null)
+//    )
+//}
 

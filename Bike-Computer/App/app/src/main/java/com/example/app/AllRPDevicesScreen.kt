@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldSubcomposeInMeasureFix
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -26,46 +27,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.app.ui.theme.AppTheme
 
-class AllRPDevicesScreen : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            AppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AllRPDevices(
-                        devicesList = listOf(
-                            "JBL Speaker",
-                            "iPhone 3",
-                            "Someone's Laptop",
-                            "AirPods",
-                            "iPhone 4",
-                            "iPhone 5",
-                            "Someone's Bose Headphones",
-                            "Computer",
-                            "Smart Fridge",
-                            "JBL Speaker",
-                            "iPhone 3",
-                            "Someone's Laptop",
-                            "AirPods",
-                            "iPhone 4",
-                            "iPhone 5",
-                            "Someone's Bose Headphones",
-                            "Computer",
-                            "Smart Fridge"
-                        ),
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+@Composable
+fun AllRPDevicesScreen(devicesList: List<String>,
+                       modifier: Modifier = Modifier,
+                       amount: Int = devicesList.size,
+                       navController: NavController
+) {
+    Scaffold(Modifier.fillMaxSize()) { innerPadding ->
+        Column(modifier = modifier.padding(innerPadding)) {
+            Header(navController)
+            DisplayDevices(
+                devicesList,
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+                amount
+            )
         }
     }
 }
 
 @Composable
-private fun Header() {
+private fun Header(navController: NavController) {
     Box(modifier = Modifier
         .fillMaxWidth()
         .height(60.dp)
@@ -74,7 +58,9 @@ private fun Header() {
             .fillMaxWidth()
             .fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
             TextButton (
-                onClick = { /*TODO*/ }, // go back to previous screen
+                onClick = {
+                    navController.navigate("HomeScreen")
+                }, // go back to home screen
                 modifier = Modifier.width(40.dp)
             ) {
                 Text(
@@ -94,39 +80,32 @@ private fun Header() {
     }
 }
 
-@Composable
-fun AllRPDevices(devicesList: List<String>, modifier: Modifier = Modifier, amount: Int = devicesList.size) {
-    Column(modifier = modifier) {
-        Header()
-        DisplayDevices(devicesList, modifier = Modifier.verticalScroll(rememberScrollState()), amount)
-    }
-}
-
-@Preview
-@Composable
-fun AllRPDevicesPreview() {
-    AllRPDevices(
-        devicesList = listOf(
-            "JBL Speaker",
-            "iPhone 3",
-            "Someone's Laptop",
-            "AirPods",
-            "iPhone 4",
-            "iPhone 5",
-            "Someone's Bose Headphones",
-            "Computer",
-            "Smart Fridge",
-            "JBL Speaker",
-            "iPhone 3",
-            "Someone's Laptop",
-            "AirPods",
-            "iPhone 4",
-            "iPhone 5",
-            "Someone's Bose Headphones",
-            "Computer",
-            "Smart Fridge"
-        ),
-        modifier = Modifier.padding(16.dp)
-    )
-}
+//@Preview
+//@Composable
+//fun AllRPDevicesScreenPreview() {
+//    AllRPDevicesScreen(
+//        devicesList = listOf(
+//            "JBL Speaker",
+//            "iPhone 3",
+//            "Someone's Laptop",
+//            "AirPods",
+//            "iPhone 4",
+//            "iPhone 5",
+//            "Someone's Bose Headphones",
+//            "Computer",
+//            "Smart Fridge",
+//            "JBL Speaker",
+//            "iPhone 3",
+//            "Someone's Laptop",
+//            "AirPods",
+//            "iPhone 4",
+//            "iPhone 5",
+//            "Someone's Bose Headphones",
+//            "Computer",
+//            "Smart Fridge"
+//        ),
+//        modifier = Modifier.padding(16.dp),
+//        navController = NavController(context = null)
+//    )
+//}
 
