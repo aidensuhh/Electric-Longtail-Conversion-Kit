@@ -26,7 +26,7 @@ totalRemainingDistanceCharacteristic, preciseDirectionCharacteristic;
 BLEServer *pServer;
 BLEService *pService;
 
-std::unordered_map<std::string, std::pair<Data*, BLECharacteristic*>> uuidMapping = {
+static std::unordered_map<std::string, std::pair<Data*, BLECharacteristic*>> uuidMapping = {
   {DESTINATION_UUID, {&destination, &destinationCharacteristic}},
   {ETA_UUID, {&eta, &etaCharacteristic}},
   {DIRECTION_UUID, {&currentDirection, &currentDirectionCharacteristic}},
