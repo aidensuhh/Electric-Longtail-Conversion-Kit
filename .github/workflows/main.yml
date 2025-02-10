@@ -1,0 +1,54 @@
+name: Sync Branches with Main
+
+on:
+  push:
+    branches:
+      - app
+      - firmware
+  workflow_dispatch:  # Allows manual rebase
+
+jobs:
+  merge-to-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensure full history
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge branch into main
+        run: |
+          BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          git checkout main
+          git pull origin main
+          git merge --no-ff $BRANCH -m "Auto-merge $BRANCH into main"
+          git push origin main
+
+  rebase-onto-main:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'  # Only runs manually
+    strategy:
+      matrix:
+        branch: [app, firmware]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensure full history
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Rebase ${{ matrix.branch }} onto main
+        run: |
+          git checkout ${{ matrix.branch }}
+          git pull origin main --rebase
+          git push origin ${{ matrix.branch }} --force
